@@ -4,6 +4,8 @@ import datetime
 import json
 import os
 from dotenv import load_dotenv
+from keep_alive import keep_alive
+
 
 # Charger les variables d'environnement
 load_dotenv()
@@ -32,4 +34,5 @@ async def on_ready():
     print(f"{bot.user} est connecté.")
     verifier_anniversaires.start()
 
+keep_alive()
 bot.run(TOKEN)
