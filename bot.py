@@ -20,7 +20,7 @@ def charger_anniversaires():
     with open("anniversaires.json", "r") as f:
         return json.load(f)
 
-@tasks.loop(time=datetime.time(hour=14, minute=0, tzinfo=pytz.timezone('Europe/Paris')))
+@tasks.loop(time=datetime.time(hour=12, minute=30))  # 14h Paris
 async def verifier_anniversaires():
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
