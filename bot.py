@@ -20,7 +20,7 @@ def charger_anniversaires():
     with open("anniversaires.json", "r") as f:
         return json.load(f)
 
-@tasks.loop(time=datetime.time(hour=8, minute=5))  # 10h Paris
+@tasks.loop(time=datetime.time(hour=7, minute=0))  # 9h Paris
 async def verifier_anniversaires():
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
@@ -29,6 +29,28 @@ async def verifier_anniversaires():
     for personne in anniversaires:
         if personne["date"] == aujourd_hui:
             await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊 ")
+            print(f"Message envoyé pour l'anniversaire de {personne['prenom']}")
+
+@tasks.loop(minutes=5)
+async def verifier_anniversaire_console():
+    aujourd_hui = datetime.datetime.now().strftime("%m-%d")
+    anniversaires = charger_anniversaires()
+    trouve = False
+
+    for personne in anniversaires:
+        if personne["date"] == aujourd_hui:
+            print(f"🎉 Il y a un anniversaire aujourd'hui : {personne['prenom']}")
+            trouve = True
+            break
+
+    if not trouve:
+        print("Pas d'anniversaire aujourd'hui...")
+
+@bot.event
+async def on_ready():
+    print(f"{bot.user} est connecté.")
+    verifier_anniversaires.start()
+    verifier_anniversaire_console.start()
 
 @bot.event
 async def on_ready():
