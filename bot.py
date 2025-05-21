@@ -33,6 +33,7 @@ async def verifier_anniversaires():
 
 @tasks.loop(minutes=5)
 async def verifier_anniversaire_console():
+    print("⏰ Boucle de vérification lancée...")
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
     trouve = False
@@ -52,10 +53,6 @@ async def on_ready():
     verifier_anniversaires.start()
     verifier_anniversaire_console.start()
 
-@bot.event
-async def on_ready():
-    print(f"{bot.user} est connecté.")
-    verifier_anniversaires.start()
 
 keep_alive()
 bot.run(TOKEN)
