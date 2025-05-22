@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from keep_alive import keep_alive
 import pytz
+import requests
 
 
 # Charger les variables d'environnement
