@@ -39,15 +39,14 @@ async def verifier_anniversaire_console():
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
     trouve = False
-    
+    if not trouve:
+        print("Pas d'anniversaire aujourd'hui...")
     for personne in anniversaires:
         if personne["date"] == aujourd_hui:
             print(f"🎉 Il y a un anniversaire aujourd'hui : {personne['prenom']}")
             trouve = True
             break
-            
-    if not trouve:
-        print("Pas d'anniversaire aujourd'hui...")
+
 
 @bot.event
 async def on_ready():
