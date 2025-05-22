@@ -47,6 +47,12 @@ async def verifier_anniversaire_console():
     if not trouve:
         print("Pas d'anniversaire aujourd'hui...")
 
+    try:
+            response = requests.get("parallel-dianne-pro-tang-kevin-f1cda2ca.koyeb.app/")
+            print(f"✅ Self-ping status: {response.status_code}")
+        except Exception as e:
+            print(f"❌ Erreur lors du self-ping : {e}")
+
 @bot.event
 async def on_ready():
     print(f"{bot.user} est connecté.")
