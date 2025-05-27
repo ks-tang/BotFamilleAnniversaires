@@ -21,7 +21,7 @@ def charger_anniversaires():
     with open("anniversaires.json", "r") as f:
         return json.load(f)
 
-@tasks.loop(time=datetime.time(hour=8, minute=10))  # 10h Paris
+@tasks.loop(time=datetime.time(hour=8, minute=0))  # 10h Paris
 async def verifier_anniversaires():
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
@@ -32,7 +32,7 @@ async def verifier_anniversaires():
             await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊 ")
             print(f"Message envoyé pour l'anniversaire de {personne['prenom']}")
 
-@tasks.loop(minutes=5)
+@tasks.loop(minutes=2)
 async def verifier_anniversaire_console():
     print("⏰ Boucle de vérification lancée...")
     response = requests.get("parallel-dianne-pro-tang-kevin-f1cda2ca.koyeb.app/")
