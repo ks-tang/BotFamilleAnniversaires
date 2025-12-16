@@ -54,9 +54,9 @@ async def on_ready():
     verifier_anniversaires.start()
     verifier_anniversaire_console.start()
 
-    channel = bot.get_channel(CHANNEL_ID)
-    message = await channel.fetch_message(1450444653781450754)
-    await message.add_reaction("👍")
+    #channel = bot.get_channel(CHANNEL_ID)
+    #message = await channel.fetch_message(1450444653781450754)
+    #await message.add_reaction("👍")
 
 
 keep_alive()
