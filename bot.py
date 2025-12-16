@@ -53,6 +53,9 @@ async def on_ready():
     print(f"{bot.user} est connecté.")
     verifier_anniversaires.start()
     verifier_anniversaire_console.start()
+    
+    message = await channel.fetch_message(1450444653781450754)
+    await message.add_reaction("👍")
 
 
 keep_alive()
