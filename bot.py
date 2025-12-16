@@ -55,7 +55,7 @@ async def on_ready():
     verifier_anniversaire_console.start()
     
     message = await channel.fetch_message(1450444653781450754)
-    await message.add_reaction("👍")
+    await message.add_reaction(":thumbsup:")
 
 
 keep_alive()
