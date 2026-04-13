@@ -26,7 +26,7 @@ def charger_anniversaires():
     with open("anniversaires.json", "r") as f:
         return json.load(f)
 
-@tasks.loop(time=datetime.time(hour=8, minute=5))  # 9h Paris
+@tasks.loop(time=datetime.time(hour=8, minute=5))  # +1h Paris si heure d'hiver +2h si heure d'été
 async def verifier_anniversaires():
     aujourd_hui = datetime.datetime.now().strftime("%m-%d")
     anniversaires = charger_anniversaires()
