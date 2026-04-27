@@ -30,7 +30,7 @@ async def envoyer_rappel():
 
         for personne in anniversaires:
             if personne["date"] == aujourd_hui:
-                await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! 🥳🎉")
+                await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
                 print(f"Message envoyé pour {personne['prenom']}")
         
         await client.close() # Très important pour fermer le script proprement
