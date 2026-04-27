@@ -17,7 +17,8 @@ async def verifier_et_remercier(canal):
     # On remonte sur les dernières 24h
     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
     
-    mots_souhaits = ["bon anniv", "joyeux anniversaire", "hb", "bravo", "félicitations", "merci"]
+    mots_felicitations = ["bon anniv", "joyeux anniversaire", "hb", "bravo", "félicitations"]
+    mots_merci = ["merci", "thx", "thanks", "mrc"]
     noms_du_bot = ["bot", "robot", canal.client.user.name.lower()]
     utilisateurs_a_remercier = []
 
@@ -30,23 +31,27 @@ async def verifier_et_remercier(canal):
         contenu = message.content.lower()
         
         # Détection : Contient un souhait/merci ET s'adresse au bot
-        a_souhaite = any(mot in contenu for mot in mots_souhaits)
         parle_au_bot = (
             (canal.client.user in message.mentions) or 
             (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
             (any(nom in contenu for nom in noms_du_bot))
         )
 
-        if a_souhaite and parle_au_bot:
-            # 1. Ajouter la réaction coeur sur le message
-            try:
-                await message.add_reaction("❤️")
-            except Exception as e:
-                print(f"Erreur réaction : {e}")
-
-            # 2. Ajouter l'utilisateur à la liste des remerciements groupés
-            if message.author.mention not in utilisateurs_a_remercier:
-                utilisateurs_a_remercier.append(message.author.mention)
+        if parle_au_bot:
+            # CAS 1 : On lui souhaite son anniversaire / On le félicite
+            if any(mot in contenu for mot in mots_felicitations):
+                try:
+                    await message.add_reaction("❤️")
+                except: pass
+                
+                if message.author.mention not in utilisateurs_a_remercier:
+                    utilisateurs_a_remercier.append(message.author.mention)
+            
+            # CAS 2 : On lui dit juste merci
+            elif any(mot in contenu for mot in mots_merci):
+                try:
+                    await message.add_reaction("👍") 
+                except: pass
 
     # 3. Message de remerciement groupé
     if utilisateurs_a_remercier:
