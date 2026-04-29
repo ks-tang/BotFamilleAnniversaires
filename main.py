@@ -95,17 +95,13 @@ async def run_bot():
 
         # Chargement des anniversaires
         anniversaires = charger_anniversaires()
-        
-        # On crée une sous-liste de ceux qui fêtent leur anniversaire aujourd'hui
-        annivs_du_jour = [p for p in anniversaires if p["date"] == aujourd_hui]
 
-        if ceux_du_jour:
-            for personne in annivs_du_jour:
+        for personne in anniversaires:
+            if personne["date"] == aujourd_hui:
                 await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
                 print(f"✅ Message envoyé pour {personne['prenom']}", flush=True)
-        else:
-            print("Aucun anniversaire à fêter aujourd'hui.", flush=True)
-        
+
+        print("FIN SCRIPT", flush=True)
         await client.close() # Très important pour fermer le script proprement
 
     await client.start(TOKEN)
