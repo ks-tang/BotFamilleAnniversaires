@@ -30,7 +30,7 @@ async def verifier_et_remercier(canal):
 
     print("🔍 Analyse des messages et ajout des réactions...", flush=True)
     
-    async for message in canal.history(after=hier, limit=20):
+    async for message in canal.history(limit=5):
         if message.author.bot:
             continue
 
