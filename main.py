@@ -29,52 +29,60 @@ async def verifier_et_remercier(canal):
     utilisateurs_a_remercier = []
 
     print("🔍 Analyse des messages et ajout des réactions...", flush=True)
+
+    try:
+        async for message in canal.history(limit=20, oldest_first=False):
+            if message.created_at < hier:
+                    break
+            if message.author.bot:
+                continue
     
-    async for message in canal.history(limit=20):
-        if message.author.bot:
-            continue
-
-        print("🔍 Analyse message 1", flush=True)
-        
-        contenu = message.content.lower()
-
-        print(contenu)
-
-        print("🔍 Analyse message 2", flush=True)
-        
-        # Détection : Contient un souhait/merci ET s'adresse au bot
-        parle_au_bot = (
-            (canal.client.user in message.mentions) or 
-            (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
-            (any(nom in contenu for nom in noms_du_bot))
-        )
-
-        print("🔍 Analyse message 3", flush=True)
-
-        if parle_au_bot:
-            # CAS 1 : On lui souhaite son anniversaire / On le félicite
-            if any(mot in contenu for mot in mots_felicitations):
-                try:
-                    await message.add_reaction("❤️")
-                except: pass
-                
-                if message.author.mention not in utilisateurs_a_remercier:
-                    utilisateurs_a_remercier.append(message.author.mention)
+            print("🔍 Analyse message 1", flush=True)
             
-            # CAS 2 : On lui dit juste merci
-            elif any(mot in contenu for mot in mots_merci):
-                try:
-                    await message.add_reaction("👍") 
-                except: pass
+            contenu = message.content.lower()
+    
+            print(contenu)
+    
+            print("🔍 Analyse message 2", flush=True)
+            
+            # Détection : Contient un souhait/merci ET s'adresse au bot
+            parle_au_bot = (
+                (canal.client.user in message.mentions) or 
+                (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
+                (any(nom in contenu for nom in noms_du_bot))
+            )
+    
+            print("🔍 Analyse message 3", flush=True)
+    
+            if parle_au_bot:
+                # CAS 1 : On lui souhaite son anniversaire / On le félicite
+                if any(mot in contenu for mot in mots_felicitations):
+                    try:
+                        await message.add_reaction("❤️")
+                    except: pass
+                    
+                    if message.author.mention not in utilisateurs_a_remercier:
+                        utilisateurs_a_remercier.append(message.author.mention)
+                
+                # CAS 2 : On lui dit juste merci
+                elif any(mot in contenu for mot in mots_merci):
+                    try:
+                        await message.add_reaction("👍") 
+                    except: pass
+    
+            print("🔍 Analyse message 4", flush=True)
+    
+        print("Messages de la veille vérifiés ✅", flush=True)
+    
+        # 3. Message de remerciement groupé
+        if utilisateurs_a_remercier:
+            mentions = ", ".join(utilisateurs_a_remercier)
+            await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
 
-        print("🔍 Analyse message 4", flush=True)
+    except Exception as e:
+        print(f"⚠️ Erreur lors de la lecture de l'historique : {e}", flush=True)
 
-    print("Messages de la veille vérifiés ✅", flush=True)
-
-    # 3. Message de remerciement groupé
-    if utilisateurs_a_remercier:
-        mentions = ", ".join(utilisateurs_a_remercier)
-        await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
+    print("✅ Vérification terminée.", flush=True)
 
 async def run_bot():
     print("Configuration des permissions...", flush=True)
