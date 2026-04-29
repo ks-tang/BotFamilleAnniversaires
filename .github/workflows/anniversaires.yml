@@ -3,7 +3,7 @@ name: Rappel Anniversaires
 on:
   schedule:
     # S'exécute tous les jours à 06:00 UTC (7h en France hiver / 8h été) + temps attente file Github
-    - cron: '15 16 * * *'
+    - cron: '0 19 * * *'
   workflow_dispatch: # Permet de lancer le script manuellement pour tester
 
 jobs:
