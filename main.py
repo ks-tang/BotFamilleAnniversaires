@@ -7,11 +7,11 @@ import os
 import asyncio
 from dotenv import load_dotenv
 
-#load_dotenv()
-#TOKEN = os.getenv("TOKEN")
-#CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
-TOKEN = os.environ.get("TOKEN")
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID"))
+load_dotenv()
+TOKEN = os.getenv("TOKEN")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
+#TOKEN = os.environ.get("TOKEN")
+#CHANNEL_ID = int(os.environ.get("CHANNEL_ID"))
 
 def charger_anniversaires():
     print("Chargement de la liste des anniversaires...")
@@ -19,53 +19,53 @@ def charger_anniversaires():
         return json.load(f)
     print("Liste des anniversaires chargée ✅")
 
-async def verifier_et_remercier(canal):
-    print("Vérification des messages de la veille...")
-    # On remonte sur les dernières 24h
-    hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
+# async def verifier_et_remercier(canal):
+#     print("Vérification des messages de la veille...")
+#     # On remonte sur les dernières 24h
+#     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
     
-    mots_felicitations = ["bon anniv", "joyeux anniversaire", "hb", "bravo", "félicitations"]
-    mots_merci = ["merci", "thx", "thanks", "mrc"]
-    noms_du_bot = ["bot", "robot", canal.client.user.name.lower()]
-    utilisateurs_a_remercier = []
+#     mots_felicitations = ["bon anniv", "joyeux anniversaire", "hb", "bravo", "félicitations"]
+#     mots_merci = ["merci", "thx", "thanks", "mrc"]
+#     noms_du_bot = ["bot", "robot", canal.client.user.name.lower()]
+#     utilisateurs_a_remercier = []
 
-    print("🔍 Analyse des messages et ajout des réactions...")
+#     print("🔍 Analyse des messages et ajout des réactions...")
     
-    async for message in canal.history(after=hier):
-        if message.author.bot:
-            continue
+#     async for message in canal.history(after=hier):
+#         if message.author.bot:
+#             continue
         
-        contenu = message.content.lower()
+#         contenu = message.content.lower()
         
-        # Détection : Contient un souhait/merci ET s'adresse au bot
-        parle_au_bot = (
-            (canal.client.user in message.mentions) or 
-            (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
-            (any(nom in contenu for nom in noms_du_bot))
-        )
+#         # Détection : Contient un souhait/merci ET s'adresse au bot
+#         parle_au_bot = (
+#             (canal.client.user in message.mentions) or 
+#             (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
+#             (any(nom in contenu for nom in noms_du_bot))
+#         )
 
-        if parle_au_bot:
-            # CAS 1 : On lui souhaite son anniversaire / On le félicite
-            if any(mot in contenu for mot in mots_felicitations):
-                try:
-                    await message.add_reaction("❤️")
-                except: pass
+#         if parle_au_bot:
+#             # CAS 1 : On lui souhaite son anniversaire / On le félicite
+#             if any(mot in contenu for mot in mots_felicitations):
+#                 try:
+#                     await message.add_reaction("❤️")
+#                 except: pass
                 
-                if message.author.mention not in utilisateurs_a_remercier:
-                    utilisateurs_a_remercier.append(message.author.mention)
+#                 if message.author.mention not in utilisateurs_a_remercier:
+#                     utilisateurs_a_remercier.append(message.author.mention)
             
-            # CAS 2 : On lui dit juste merci
-            elif any(mot in contenu for mot in mots_merci):
-                try:
-                    await message.add_reaction("👍") 
-                except: pass
+#             # CAS 2 : On lui dit juste merci
+#             elif any(mot in contenu for mot in mots_merci):
+#                 try:
+#                     await message.add_reaction("👍") 
+#                 except: pass
 
-    print("Messages de la veille vérifiés ✅")
+#     print("Messages de la veille vérifiés ✅")
 
-    # 3. Message de remerciement groupé
-    if utilisateurs_a_remercier:
-        mentions = ", ".join(utilisateurs_a_remercier)
-        await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
+#     # 3. Message de remerciement groupé
+#     if utilisateurs_a_remercier:
+#         mentions = ", ".join(utilisateurs_a_remercier)
+#         await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
 
 async def run_bot():
     print("Configuration des permissions...")
@@ -90,8 +90,8 @@ async def run_bot():
             await client.close()
             return
 
-        # Fonction vérification et remerciement
-        await verifier_et_remercier(canal)
+        # # Fonction vérification et remerciement
+        # await verifier_et_remercier(canal)
 
         # Chargement des anniversaires du jour
         anniversaires = charger_anniversaires()
