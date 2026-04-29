@@ -7,9 +7,11 @@ import os
 import asyncio
 from dotenv import load_dotenv
 
-load_dotenv()
-TOKEN = os.getenv("TOKEN")
-CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
+#load_dotenv()
+#TOKEN = os.getenv("TOKEN")
+#CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
+TOKEN = os.environ.get("TOKEN")
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID"))
 
 def charger_anniversaires():
     print("Chargement de la liste des anniversaires...")
