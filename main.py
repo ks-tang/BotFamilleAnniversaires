@@ -24,7 +24,7 @@ async def verifier_et_remercier(canal):
     # On remonte sur les dernières 24h
     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
     
-    mots_felicitations = ["bon anniv", "joyeux anniversaire", "hb", "bravo", "félicitations"]
+    mots_felicitations = ["anniv", "anniversaire", "hb", "bravo", "félicitations"]
     mots_merci = ["merci", "thx", "thanks", "mrc"]
     noms_du_bot = ["bot", "robot", canal.client.user.name.lower()]
     utilisateurs_a_remercier = []
