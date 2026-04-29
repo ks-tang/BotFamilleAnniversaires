@@ -33,8 +33,14 @@ async def verifier_et_remercier(canal):
     async for message in canal.history(after=hier, limit=20):
         if message.author.bot:
             continue
+
+        print("🔍 Analyse message 1", flush=True)
         
         contenu = message.content.lower()
+
+        print(contenu)
+
+        print("🔍 Analyse message 2", flush=True)
         
         # Détection : Contient un souhait/merci ET s'adresse au bot
         parle_au_bot = (
@@ -42,6 +48,8 @@ async def verifier_et_remercier(canal):
             (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
             (any(nom in contenu for nom in noms_du_bot))
         )
+
+        print("🔍 Analyse message 3", flush=True)
 
         if parle_au_bot:
             # CAS 1 : On lui souhaite son anniversaire / On le félicite
@@ -58,6 +66,8 @@ async def verifier_et_remercier(canal):
                 try:
                     await message.add_reaction("👍") 
                 except: pass
+
+        print("🔍 Analyse message 4", flush=True)
 
     print("Messages de la veille vérifiés ✅", flush=True)
 
