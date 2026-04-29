@@ -14,10 +14,9 @@ CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 #CHANNEL_ID = int(os.environ.get("CHANNEL_ID"))
 
 def charger_anniversaires():
-    print("Chargement de la liste des anniversaires...")
+    print("Chargement de la liste des anniversaires...", flush=True)
     with open("anniversaires.json", "r") as f:
         return json.load(f)
-    print("Liste des anniversaires chargée ✅")
 
 async def verifier_et_remercier(canal):
     print("Vérification des messages de la veille...")
@@ -60,7 +59,7 @@ async def verifier_et_remercier(canal):
                     await message.add_reaction("👍") 
                 except: pass
 
-    print("Messages de la veille vérifiés ✅")
+    print("Messages de la veille vérifiés ✅", flush=True)
 
     # 3. Message de remerciement groupé
     if utilisateurs_a_remercier:
@@ -68,7 +67,7 @@ async def verifier_et_remercier(canal):
         await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
 
 async def run_bot():
-    print("Configuration des permissions...")
+    print("Configuration des permissions...", flush=True)
     # 1. On configure les permissions (intents)
     intents = discord.Intents.default()
     intents.message_content = True  # Indispensable pour lire les messages
@@ -76,17 +75,17 @@ async def run_bot():
     # 2. On crée le client avec ces permissions
     client = discord.Client(intents=intents)
 
-    print("Configuration terminée ✅")
+    print("Configuration terminée ✅", flush=True)
     
     @client.event
     async def on_ready():
-        print("✅ Le bot est réveillé et tente de travailler...")
-        print(f"Connecté en tant que {client.user}")
+        print("✅ Le bot est réveillé et tente de travailler...", flush=True)
+        print(f"Connecté en tant que {client.user}", flush=True)
         aujourd_hui = datetime.datetime.now().strftime("%m-%d")
         canal = client.get_channel(CHANNEL_ID)
         
         if canal is None:
-            print("Erreur : Canal introuvable")
+            print("Erreur : Canal introuvable", flush=True)
             await client.close()
             return
 
