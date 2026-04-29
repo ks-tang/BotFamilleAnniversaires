@@ -19,7 +19,7 @@ def charger_anniversaires():
         return json.load(f)
 
 async def verifier_et_remercier(canal):
-    print("Vérification des messages de la veille...")
+    print("Vérification des messages de la veille...", flush=True)
     # On remonte sur les dernières 24h
     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
     
@@ -28,7 +28,7 @@ async def verifier_et_remercier(canal):
     noms_du_bot = ["bot", "robot", canal.client.user.name.lower()]
     utilisateurs_a_remercier = []
 
-    print("🔍 Analyse des messages et ajout des réactions...")
+    print("🔍 Analyse des messages et ajout des réactions...", flush=True)
     
     async for message in canal.history(after=hier):
         if message.author.bot:
