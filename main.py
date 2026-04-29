@@ -1,3 +1,5 @@
+import sys
+print("🚀 DÉMARRAGE DU SCRIPT PYTHON", flush=True)
 import discord
 import datetime
 import json
