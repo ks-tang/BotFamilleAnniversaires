@@ -10,10 +10,13 @@ TOKEN = os.getenv("TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID"))
 
 def charger_anniversaires():
+    print("Chargement de la liste des anniversaires...")
     with open("anniversaires.json", "r") as f:
         return json.load(f)
+    print("Liste des anniversaires chargée ✅")
 
 async def verifier_et_remercier(canal):
+    print("Vérification des messages de la veille...")
     # On remonte sur les dernières 24h
     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
     
@@ -53,34 +56,42 @@ async def verifier_et_remercier(canal):
                     await message.add_reaction("👍") 
                 except: pass
 
+    print("Messages de la veille vérifiés ✅")
+
     # 3. Message de remerciement groupé
     if utilisateurs_a_remercier:
         mentions = ", ".join(utilisateurs_a_remercier)
         await canal.send(f"Merci beaucoup {mentions} pour vos gentils messages ! Ça me fait chaud au circuit. ❤️🤖")
 
-async def envoyer_rappel():
+async def run_bot():
+    print("Configuration des permissions...")
     # 1. On configure les permissions (intents)
     intents = discord.Intents.default()
     intents.message_content = True  # Indispensable pour lire les messages
     
     # 2. On crée le client avec ces permissions
     client = discord.Client(intents=intents)
+
+    print("Configuration terminée ✅")
     
     @client.event
     async def on_ready():
+        print("✅ Le bot est réveillé et tente de travailler...")
         print(f"Connecté en tant que {client.user}")
         aujourd_hui = datetime.datetime.now().strftime("%m-%d")
-        anniversaires = charger_anniversaires()
         canal = client.get_channel(CHANNEL_ID)
-
+        
         if canal is None:
             print("Erreur : Canal introuvable")
             await client.close()
             return
 
-        # Remerciements hier
+        # Fonction vérification et remerciement
         await verifier_et_remercier(canal)
 
+        # Chargement des anniversaires du jour
+        anniversaires = charger_anniversaires()
+        
         # Anniversaires du jour
         for personne in anniversaires:
             if personne["date"] == aujourd_hui:
@@ -92,4 +103,4 @@ async def envoyer_rappel():
     await client.start(TOKEN)
 
 if __name__ == "__main__":
-    asyncio.run(envoyer_rappel())
+    asyncio.run(run_bot())
