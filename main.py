@@ -30,7 +30,7 @@ async def verifier_et_remercier(canal):
 
     print("🔍 Analyse des messages et ajout des réactions...", flush=True)
     
-    async for message in canal.history(limit=5):
+    async for message in canal.history(limit=20):
         if message.author.bot:
             continue
 
@@ -79,7 +79,8 @@ async def verifier_et_remercier(canal):
 async def run_bot():
     print("Configuration des permissions...", flush=True)
     # 1. On configure les permissions (intents)
-    intents = discord.Intents.default()
+    # intents = discord.Intents.default()
+    intents = discord.Intents.all()
     intents.message_content = True  # Indispensable pour lire les messages
     
     # 2. On crée le client avec ces permissions
