@@ -22,7 +22,8 @@ async def verifier_et_remercier(canal):
     print("Vérification des messages de la veille...", flush=True)
     # On remonte sur les dernières 24h
     hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
-    
+
+    moi = canal.guild.me
     mots_felicitations = ["anniv", "anniversaire", "hb", "bravo", "félicitations"]
     mots_merci = ["merci", "thx", "thanks", "mrc"]
     noms_du_bot = ["bot", "robot"]
@@ -42,8 +43,8 @@ async def verifier_et_remercier(canal):
             
             # Détection : Contient un souhait/merci ET s'adresse au bot
             parle_au_bot = (
-                (client.user in message.mentions) or 
-                (message.reference and message.reference.resolved and message.reference.resolved.author == client.user) or
+                (moi in message.mentions) or 
+                (message.reference and message.reference.resolved and message.reference.resolved.author == moi) or
                 (any(nom in contenu for nom in noms_du_bot))
             )
     
