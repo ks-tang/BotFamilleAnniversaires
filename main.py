@@ -42,8 +42,8 @@ async def verifier_et_remercier(canal):
             
             # Détection : Contient un souhait/merci ET s'adresse au bot
             parle_au_bot = (
-                (canal.client.user in message.mentions) or 
-                (message.reference and message.reference.resolved and message.reference.resolved.author == canal.client.user) or
+                (client.user in message.mentions) or 
+                (message.reference and message.reference.resolved and message.reference.resolved.author == client.user) or
                 (any(nom in contenu for nom in noms_du_bot))
             )
     
@@ -103,12 +103,12 @@ async def run_bot():
         await verifier_et_remercier(canal)
 
         # Chargement des anniversaires
-        anniversaires = charger_anniversaires()
+        # anniversaires = charger_anniversaires()
 
-        for personne in anniversaires:
-            if personne["date"] == aujourd_hui:
-                await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
-                print(f"✅ Message envoyé pour {personne['prenom']}", flush=True)
+        # for personne in anniversaires:
+        #     if personne["date"] == aujourd_hui:
+        #         await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
+        #         print(f"✅ Message envoyé pour {personne['prenom']}", flush=True)
 
         print("FIN SCRIPT", flush=True)
         await client.close() # Très important pour fermer le script proprement
