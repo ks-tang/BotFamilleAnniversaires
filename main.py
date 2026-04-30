@@ -104,12 +104,12 @@ async def run_bot():
         await verifier_et_remercier(canal)
 
         # Chargement des anniversaires
-        # anniversaires = charger_anniversaires()
+        anniversaires = charger_anniversaires()
 
-        # for personne in anniversaires:
-        #     if personne["date"] == aujourd_hui:
-        #         await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
-        #         print(f"✅ Message envoyé pour {personne['prenom']}", flush=True)
+        for personne in anniversaires:
+            if personne["date"] == aujourd_hui:
+                await canal.send(f"Aujourd'hui, c'est l'anniversaire de **{personne['prenom']}** ! Bon anniversaire **{personne['prenom']}** 🥳🎉🎊")
+                print(f"✅ Message envoyé pour {personne['prenom']}", flush=True)
 
         print("FIN SCRIPT", flush=True)
         await client.close() # Très important pour fermer le script proprement
