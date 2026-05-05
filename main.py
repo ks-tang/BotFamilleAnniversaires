@@ -26,7 +26,7 @@ async def verifier_et_remercier(canal):
     moi = canal.guild.me
     mots_felicitations = ["anniv", "anniversaire", "hb", "bravo", "félicitations"]
     mots_merci = ["merci", "thx", "thanks", "mrc"]
-    noms_du_bot = ["bot", "robot"]
+    noms_du_bot = ["bot", "robot", "test", "TEST"]
     utilisateurs_a_remercier = []
 
     print("🔍 Analyse des messages et ajout des réactions...", flush=True)
