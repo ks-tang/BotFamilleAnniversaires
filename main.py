@@ -32,14 +32,16 @@ async def verifier_et_remercier(canal):
     print("🔍 Analyse des messages et ajout des réactions...", flush=True)
 
     try:
-        async for message in canal.history(after=hier, limit=30, oldest_first=False):
+        async for message in canal.history(limit=30, oldest_first=False):
+
+            print(f"📥 Message trouvé : '{message.content}' de {message.author}", flush=True)
+                  
             if message.created_at < hier:
-                print(message.created_at)
-                print("pas hier")
+                print(f"↳ Trop vieux ({message.created_at}), j'arrête.", flush=True)
                 break
             if message.author.bot:
-                print(message.author.bot)
-                print("bot")
+                print(message.author.bot, flush=True)
+                print("bot", flush=True)
                 continue
             
             contenu = message.content.lower()
