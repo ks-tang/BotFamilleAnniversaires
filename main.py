@@ -21,7 +21,9 @@ def charger_anniversaires():
 async def verifier_et_remercier(canal):
     print("Vérification des messages de la veille...", flush=True)
     # On remonte sur les dernières 24h
-    hier = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
+    maintenant = datetime.datetime.now(datetime.timezone.utc)
+    hier = (maintenant - datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    print(f"⏰ Seuil de recherche : {hier}", flush=True)
 
     moi = canal.guild.me
     mots_felicitations = ["anniv", "anniversaire", "hb", "bravo", "félicitations"]
