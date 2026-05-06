@@ -34,8 +34,12 @@ async def verifier_et_remercier(canal):
     try:
         async for message in canal.history(after=hier, limit=30, oldest_first=False):
             if message.created_at < hier:
+                print(message.created_at)
+                print("pas hier")
                 break
             if message.author.bot:
+                print(message.author.bot)
+                print("bot")
                 continue
             
             contenu = message.content.lower()
